@@ -6,7 +6,7 @@ on:
     branches:
       - 'v2.1'
   pull_request:
-    branches: [ master ]
+    branches: [ v2.1 ]
 
 
 jobs:
