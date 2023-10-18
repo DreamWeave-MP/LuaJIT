@@ -43,7 +43,7 @@ jobs:
           mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}${{ env.BUILD_EXT_STAT }} ../lib
           mv lauxlib.h lua.h lua.hpp luaconf.h luajit.h lualib.h ../include
           cd ..
-          7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on LuaJIT-${{ runner.os }}-.7z COPYRIGHT bin include lib lua README
+          7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on LuaJIT-${{ runner.os }}.7z COPYRIGHT bin include lib lua README
 
 
       - name: Upload Release
@@ -51,7 +51,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: Stable-CI
-          files: LuaJIT-${{ runner.os }}-.7z
+          files: LuaJIT-${{ runner.os }}.7z
           body: |
             CI Build for Dreamweave LuaJIT Fork
 
