@@ -38,6 +38,7 @@ jobs:
 
       - name: Make Archive
         # if: github.event_name != 'pull_request'
+        shell: bash
         run: |
           ${{ runner.os == 'Windows' && 'md' || 'mkdir' }} bin/ include/ lib/ lua/
           cd src
