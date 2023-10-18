@@ -28,7 +28,7 @@ jobs:
       - name: Build
         run: |
           ${{ runner.os != 'Windows' && 'make' || 'src/msvcbuild.bat'}}
-          ls -la
+          # ls -la
 
       - name: Make Archive
         if: github.event_name != 'pull_request'
