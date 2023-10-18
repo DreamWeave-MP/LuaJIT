@@ -42,6 +42,7 @@ jobs:
         run: |
           mkdir bin include lib lua
           cd src
+          ls -la1R
           mv jit ../lua
           mv ${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_DYN }} ../bin
           mv ${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_STAT }} ../lib
