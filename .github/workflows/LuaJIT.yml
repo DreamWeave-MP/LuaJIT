@@ -13,31 +13,27 @@ jobs:
   Build-Release:
     strategy:
       matrix:
-        build_type: [Release, RelWithDebInfo, MinSizeRel, Debug]
         target_system: [ ubuntu-22.04, windows-2022, macos-11 ]
     runs-on: ${{ matrix.target_system }}
     env:
       BUILD_EXT: ${{ matrix.target_system == 'windows-2022' && '.dll' || '.so' }}
       BUILD_PREFIX: ${{ matrix.target_system != 'windows-2022' && 'lib' || ''}}
-      BUILD_SUFFIX: ${{ matrix.target_system == 'windows-2022' && matrix.build_type == 'Debug' && 'd' || '' }}
-      BUILD_DIR: D:/a/LuaJIT/LuaJIT/lib/${{ matrix.build_type}}/
+      
+      BUILD_DIR: D:/a/LuaJIT/LuaJIT/lib/
       # LIB_NAME:
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configure
-        shell: bash
-        run: cmake .
-
       - name: Build
         run: |
-          cmake --build . --config ${{ matrix.build_type }}
+          ${{ runner.os != 'Windows' && 'make' || 'src/msvcbuild.bat'}}
+          ls -la
 
       - name: Make Archive
         if: github.event_name != 'pull_request'
         run: |
-          7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on CrabNet-${{ runner.os }}-${{ matrix.build_type }}.7z LICENSE include/ ${{ runner.os == 'Windows' && env.BUILD_DIR || 'lib/' }}${{ env.BUILD_PREFIX }}RakNetLibStatic${{ env.BUILD_SUFFIX }}${{ env.BUILD_EXT }}
+          7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on LuaJIT-${{ runner.os }}-.7z LICENSE include/ ${{ runner.os == 'Windows' && env.BUILD_DIR || 'lib/' }}${{ env.BUILD_PREFIX }}Lua{{ env.BUILD_EXT }}
 
 
       - name: Upload Release
@@ -45,7 +41,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: Stable-CI
-          files: CrabNet-${{ runner.os }}-${{ matrix.build_type }}.7z
+          files: LuaJIT-${{ runner.os }}-.7z
           body: |
             CI Build for Dreamweave LuaJIT Fork
 
@@ -54,7 +50,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            ${{ runner.os == 'Windows' && env.BUILD_DIR || 'lib/' }}${{ env.BUILD_PREFIX }}Lua${{ env.BUILD_SUFFIX }}${{ env.BUILD_EXT }}
+            ${{ runner.os == 'Windows' && env.BUILD_DIR || 'lib/' }}${{ env.BUILD_PREFIX }}Lua${{ env.BUILD_EXT }}
             include/
-            LICENSE
-          name: LuaJIT-${{ runner.os }}-${{ matrix.build_type }}
+            bin/
+            COPYRIGHT
+            README
+          name: LuaJIT-${{ runner.os }}
