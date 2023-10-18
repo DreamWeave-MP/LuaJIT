@@ -40,10 +40,11 @@ jobs:
         # if: github.event_name != 'pull_request'
         run: |
           mkdir bin include lib lua
-          mv src/jit lua
-          mv src/${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_DYN }} bin
-          mv src/${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_STAT }} lib
-          mv lauxlib.h lua.h lua.hpp luaconf.h luajit.h lualib.h include
+          cd src
+          mv jit ../lua
+          mv ${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_DYN }} ../bin
+          mv ${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_STAT }} ../lib
+          mv lauxlib.h lua.h lua.hpp luaconf.h luajit.h lualib.h ../include
           7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on LuaJIT-${{ runner.os }}-.7z COPYRIGHT bin include lib lua README
 
 
