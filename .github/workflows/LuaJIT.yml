@@ -20,9 +20,6 @@ jobs:
       BUILD_EXT_STAT: ${{ matrix.target_system == 'windows-2022' && '.lib' || '.a' }}
       BUILD_PREFIX: ${{ matrix.target_system != 'windows-2022' && 'lib' || ''}}
       LIB_NAME: ${{ matrix.target_system == 'windows-2022' && 'lua51' || 'luajit' }}
-      
-      BUILD_DIR: D:/a/LuaJIT/LuaJIT/lib/
-      # LIB_NAME:
 
     steps:
       - uses: actions/checkout@v4
@@ -35,10 +32,8 @@ jobs:
       - name: Build
         run: |
           ${{ runner.os != 'Windows' && 'make' || 'cd src && ./msvcbuild.bat && cd ..'}}
-          # ls -la
 
       - name: Make Archive
-        # if: github.event_name != 'pull_request'
         shell: bash
         run: |
           mkdir bin include lib lua
