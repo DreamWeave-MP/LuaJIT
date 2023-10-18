@@ -46,7 +46,7 @@ jobs:
           ls -la1R
           mv jit ../lua
           mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}${{ env.BUILD_EXT_DYN }} ../bin
-          mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}{{ env.BUILD_EXT_STAT }} ../lib
+          mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}${{ env.BUILD_EXT_STAT }} ../lib
           mv lauxlib.h lua.h lua.hpp luaconf.h luajit.h lualib.h ../include
           cd ..
           7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on LuaJIT-${{ runner.os }}-.7z COPYRIGHT bin include lib lua README
