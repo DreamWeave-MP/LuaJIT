@@ -31,7 +31,7 @@ jobs:
 
       - name: Build
         run: |
-          ${{ runner.os == 'macOS' && 'export OSX_DEPLOYMENT_TARGET="11.7" && make' || runner.os == 'Linux' && 'make' || 'cd src && ./msvcbuild.bat && cd ..'}}
+          ${{ runner.os == 'macOS' && 'export MACOSX_DEPLOYMENT_TARGET="11.7" && make' || runner.os == 'Linux' && 'make' || 'cd src && ./msvcbuild.bat && cd ..'}}
 
       - name: Make Archive
         shell: bash
