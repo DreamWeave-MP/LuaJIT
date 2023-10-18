@@ -19,7 +19,7 @@ jobs:
       BUILD_EXT_DYN: ${{ matrix.target_system == 'windows-2022' && '.dll' || '.so' }}
       BUILD_EXT_STAT: ${{ matrix.target_system == 'windows-2022' && '.lib' || '.a' }}
       BUILD_PREFIX: ${{ matrix.target_system != 'windows-2022' && 'lib' || ''}}
-      LIB_NAME: ${{ runner.os == 'Windows' && 'lua51' || 'luajit' }}
+      LIB_NAME: ${{ matrix.target_system == 'windows-2022' && 'lua51' || 'luajit' }}
       
       BUILD_DIR: D:/a/LuaJIT/LuaJIT/lib/
       # LIB_NAME:
