@@ -39,7 +39,7 @@ jobs:
       - name: Make Archive
         # if: github.event_name != 'pull_request'
         run: |
-          ${{ runner.os == 'Windows' && 'md' || 'mkdir' }} bin include lib lua
+          ${{ runner.os == 'Windows' && 'md' || 'mkdir' }} bin/ include/ lib/ lua/
           cd src
           mv jit ../lua
           mv ${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_DYN }} ../bin
