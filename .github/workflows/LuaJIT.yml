@@ -32,7 +32,7 @@ jobs:
 
       - name: Build
         run: |
-          ${{ runner.os != 'Windows' && 'make' || 'src/msvcbuild.bat'}}
+          ${{ runner.os != 'Windows' && 'make' || 'cd src && msvcbuild.bat'}}
           # ls -la
 
       - name: Make Archive
