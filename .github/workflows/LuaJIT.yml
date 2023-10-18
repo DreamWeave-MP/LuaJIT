@@ -40,7 +40,7 @@ jobs:
         # if: github.event_name != 'pull_request'
         shell: bash
         run: |
-          ${{ runner.os == 'Windows' && 'md' || 'mkdir' }} bin/ include/ lib/ lua/
+          mkdir bin include lib lua
           cd src
           mv jit ../lua
           mv ${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_DYN }} ../bin
