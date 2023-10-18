@@ -19,6 +19,7 @@ jobs:
       BUILD_EXT_DYN: ${{ matrix.target_system == 'windows-2022' && '.dll' || '.so' }}
       BUILD_EXT_STAT: ${{ matrix.target_system == 'windows-2022' && '.lib' || '.a' }}
       BUILD_PREFIX: ${{ matrix.target_system != 'windows-2022' && 'lib' || ''}}
+      LIB_NAME: ${{ runner.os == 'Windows' && 'lua51' || 'luajit' }}
       
       BUILD_DIR: D:/a/LuaJIT/LuaJIT/lib/
       # LIB_NAME:
@@ -44,8 +45,8 @@ jobs:
           cd src
           ls -la1R
           mv jit ../lua
-          mv ${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_DYN }} ../bin
-          mv ${{ env.BUILD_PREFIX }}luajit${{ env.BUILD_EXT_STAT }} ../lib
+          mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}${{ env.BUILD_EXT_DYN }} ../bin
+          mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}{{ env.BUILD_EXT_STAT }} ../lib
           mv lauxlib.h lua.h lua.hpp luaconf.h luajit.h lualib.h ../include
           cd ..
           7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on LuaJIT-${{ runner.os }}-.7z COPYRIGHT bin include lib lua README
