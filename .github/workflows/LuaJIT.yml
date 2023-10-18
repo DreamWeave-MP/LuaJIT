@@ -16,7 +16,8 @@ jobs:
         target_system: [ ubuntu-22.04, windows-2022 ]
     runs-on: ${{ matrix.target_system }}
     env:
-      BUILD_EXT: ${{ matrix.target_system == 'windows-2022' && '.dll' || '.so' }}
+      BUILD_EXT_DYN: ${{ matrix.target_system == 'windows-2022' && '.dll' || '.so' }}
+      BUILD_EXT_STAT: ${{ matrix.target_system == 'windows-2022' && '.lib' || '.a' }}
       BUILD_PREFIX: ${{ matrix.target_system != 'windows-2022' && 'lib' || ''}}
       
       BUILD_DIR: D:/a/LuaJIT/LuaJIT/lib/
@@ -32,13 +33,18 @@ jobs:
 
       - name: Build
         run: |
-          ${{ runner.os != 'Windows' && 'make' || 'cd src && ./msvcbuild.bat'}}
+          ${{ runner.os != 'Windows' && 'make' || 'cd src && ./msvcbuild.bat' && cd ..}}
           # ls -la
 
       - name: Make Archive
-        if: github.event_name != 'pull_request'
+        # if: github.event_name != 'pull_request'
         run: |
-          7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on LuaJIT-${{ runner.os }}-.7z LICENSE include/ ${{ runner.os == 'Windows' && env.BUILD_DIR || 'lib/' }}${{ env.BUILD_PREFIX }}Lua{{ env.BUILD_EXT }}
+          mkdir bin include lib lua
+          mv src/jit lua
+          mv ${{ BUILD_PREFIX }}luajit${{ env.BUILD_EXT_DYN }} bin
+          mv ${{ BUILD_PREFIX }}luajit${{ env.BUILD_EXT_STAT }} lib
+          mv lauxlib.h lua.h lua.hpp luaconf.h luajit.h lualib.h include
+          7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on LuaJIT-${{ runner.os }}-.7z COPYRIGHT bin include lib lua README
 
 
       - name: Upload Release
@@ -55,9 +61,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            ${{ runner.os == 'Windows' && env.BUILD_DIR || 'lib/' }}${{ env.BUILD_PREFIX }}Lua${{ env.BUILD_EXT }}
-            include/
-            bin/
             COPYRIGHT
+            bin
+            include
+            lib
+            lua
             README
           name: LuaJIT-${{ runner.os }}
