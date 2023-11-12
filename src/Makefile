@@ -112,6 +112,8 @@ XCFLAGS+= -DLUAJIT_ENABLE_LUA52COMPAT
 # Disable LJ_GC64 mode for x64.
 #XCFLAGS+= -DLUAJIT_DISABLE_GC64
 #
+# Enable 4GB flag for LuaJIT
+XCFLAGS+= -DLUAJIT_ENABLE_GC64
 ##############################################################################
 
 ##############################################################################
