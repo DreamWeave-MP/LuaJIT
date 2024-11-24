@@ -16,6 +16,7 @@ jobs:
         target_system: [ ubuntu-22.04, windows-2022, macos-11 ]
     runs-on: ${{ matrix.target_system }}
     env:
+      BUILD_EXT_BIN: ${{ matrix.target_system == 'windows-2022' && '.exe' || '' }}
       BUILD_EXT_DYN: ${{ matrix.target_system == 'windows-2022' && '.dll' || '.so' }}
       BUILD_EXT_STAT: ${{ matrix.target_system == 'windows-2022' && '.lib' || '.a' }}
       BUILD_PREFIX: ${{ matrix.target_system != 'windows-2022' && 'lib' || ''}}
@@ -39,6 +40,7 @@ jobs:
           mkdir bin include lib lua
           cd src
           mv jit ../lua
+          mv ${{ env.LIB_NAME }}${{ env.BUILD_EXT_BIN }} ../bin
           mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}${{ env.BUILD_EXT_DYN }} ../bin
           mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}${{ env.BUILD_EXT_STAT }} ../lib
           mv lauxlib.h lua.h lua.hpp luaconf.h luajit.h lualib.h ../include
