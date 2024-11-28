@@ -39,7 +39,7 @@ jobs:
         run: |
           mkdir bin include lib lua
           cd src
-          mv jit ../lua
+          mv jit ../bin
           mv luajit${{ env.BUILD_EXT_BIN }} ../bin
           mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}${{ env.BUILD_EXT_DYN }} ../bin
           mv ${{ env.BUILD_PREFIX }}${{ env.LIB_NAME }}${{ env.BUILD_EXT_STAT }} ../lib
