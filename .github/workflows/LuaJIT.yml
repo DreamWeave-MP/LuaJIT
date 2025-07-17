@@ -50,7 +50,7 @@ jobs:
 
       - name: Upload Release
         if: github.event_name != 'pull_request'
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: Stable-CI
           files: LuaJIT-${{ runner.os }}.7z
@@ -59,7 +59,7 @@ jobs:
 
       - name: Upload Artifact
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: |
             COPYRIGHT
